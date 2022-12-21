@@ -77,6 +77,9 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private BNO055IMU imu;
     private VoltageSensor batteryVoltageSensor;
+    private DcMotorEx lift;
+    private Servo claw;
+    private Servo claw2;
 
     public SampleMecanumDrive(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
@@ -124,9 +127,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-       // lift = hardwareMap.get(DcMotorEx.class, "lift");
-       // claw = hardwareMap.get(Servo.class, "claw");
-        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
+        lift = hardwareMap.get(DcMotorEx.class, "lift");
+       claw = hardwareMap.get(Servo.class, "claw");
+       claw2 = hardwareMap.get(Servo.class, "claw2");
+        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront, lift);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
@@ -316,5 +320,14 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);
+    }
+    public void lift(int enco){
+        lift.setTargetPosition(enco);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setPower(1);
+    }
+    public void open(){
+        claw.setPosition(0.8);
+        claw2.setPosition(1);
     }
 }

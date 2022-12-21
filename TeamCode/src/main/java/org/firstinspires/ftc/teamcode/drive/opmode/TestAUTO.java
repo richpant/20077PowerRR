@@ -34,11 +34,11 @@ public class TestAUTO extends LinearOpMode {
         //liftMotor.getZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                 .back(34.2)
-                .addTemporalMarker(() -> lift(1700))
+                .addTemporalMarker(() -> drive.lift(600))
                 .addTemporalMarker(() -> claw.setPosition(0.7))
                 .waitSeconds(3)
                 .addTemporalMarker(() -> claw.setPosition(-0.5))
-                .addTemporalMarker(() -> lift(-1700))
+                .addTemporalMarker(() -> drive.lift(-1700))
                 .strafeRight(79)
                 .forward(29)
                 .addTemporalMarker(()-> lift.setPower(-0.4))
@@ -51,7 +51,7 @@ public class TestAUTO extends LinearOpMode {
         if (!isStopRequested())
             drive.followTrajectorySequence(trajSeq);
     }
-    public void lift(int encod)
+   /* public void lift(int encod)
     {
 
         lift.setTargetPosition(encod);
@@ -70,5 +70,5 @@ public class TestAUTO extends LinearOpMode {
 
         lift.setPower(.7);
 
-    }
+    }*/
 }
